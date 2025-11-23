@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Nova - AI-Powered Onboarding Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nova-blue': '#0066FF',
+                        'nova-blue-dark': '#0052CC',
+                        'nova-blue-light': '#E6F2FF',
+                        'nova-purple': '#6B46C1',
+                        'nova-purple-light': '#F3F0FF',
+                        'nova-green': '#059669',
+                        'nova-green-light': '#ECFDF5',
+                        'nova-orange': '#EA580C',
+                        'nova-orange-light': '#FFF7ED',
+                        'nova-gray': {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'progress': 'progress 2s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .btn-primary {
+            @apply bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105;
+        }
+        .btn-secondary {
+            @apply bg-white hover:bg-nova-gray-50 text-nova-gray-700 font-medium py-3 px-6 rounded-lg border border-nova-gray-200 transition-all duration-200 shadow-sm hover:shadow-md;
+        }
+        .card {
+            @apply bg-white rounded-xl shadow-lg border border-nova-gray-100 p-6 transition-all duration-300 hover:shadow-xl;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0066FF 0%, #6B46C1 100%);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px -10px #0066FF; }
+            to { box-shadow: 0 0 20px -2px #0066FF; }
+        }
+        .animate-progress {
+            animation: progress 2s ease-in-out;
+        }
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-nova-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-nova-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center">
+                            <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-4 h-4 bg-nova-green rounded-full flex items-center justify-center">
+                            <i data-lucide="brain" class="w-2.5 h-2.5 text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-nova-gray-900">
+                            KYC <span class="text-nova-blue">Nova</span>
+                        </h1>
+                        <p class="text-sm text-nova-gray-500">AI-Powered Onboarding</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-nova-blue bg-nova-blue-light">Home</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-nova-gray-700 hover:text-nova-blue hover:bg-nova-gray-50">KYC Demo</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-nova-gray-700 hover:text-nova-blue hover:bg-nova-gray-50">Dashboard</a>
+                </nav>
+
+                <!-- Feature Icons -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden lg:flex items-center space-x-3 text-nova-gray-400">
+                        <div class="flex items-center space-x-1">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                            <span class="text-xs">Vision AI</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <i data-lucide="brain" class="w-4 h-4"></i>
+                            <span class="text-xs">Smart AI</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <span class="text-xs">TrustGraph</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-nova-green rounded-full animate-pulse"></div>
+                        <span class="text-sm text-nova-gray-600 font-medium">Live Demo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden gradient-bg">
+        <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+                    KYC <span class="text-yellow-300">Nova</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+                    The AI Copilot for Effortless, Explainable Onboarding
+                </p>
+                <p class="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
+                    Transform compliance from a checkpoint into a transparent, intelligent, and human-centered experience
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-nova-blue hover:bg-nova-gray-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center" onclick="startDemo()">
+                        Try Live Demo
+                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                    </button>
+                    <button class="bg-white/10 text-white border border-white/20 hover:bg-white/20 font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md inline-flex items-center justify-center" onclick="showDashboard()">
+                        View Dashboard
+                        <i data-lucide="shield" class="ml-2 w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-20 left-10 opacity-20">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center animate-float">
+                <i data-lucide="eye" class="w-10 h-10 text-nova-blue"></i>
+            </div>
+        </div>
+        <div class="absolute bottom-20 right-10 opacity-20">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center animate-float" style="animation-delay: -3s;">
+                <i data-lucide="brain" class="w-8 h-8 text-nova-purple"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-nova-gray-900 mb-4">
+                    Powered by Multimodal Intelligence
+                </h2>
+                <p class="text-xl text-nova-gray-600 max-w-3xl mx-auto">
+                    Three AI modules working together to transform KYC from a manual task into an effortless, auditable conversation
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- SmartVision+ -->
+                <div class="card text-center group hover:scale-105 animate-glow">
+                    <div class="w-16 h-16 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="eye" class="w-8 h-8 text-nova-blue"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-nova-gray-900 mb-4">SmartVision+</h3>
+                    <p class="text-nova-gray-600">
+                        Advanced document verification with micro-pattern recognition, hologram analysis, and real-time forgery detection.
+                    </p>
+                </div>
+
+                <!-- Conversational AI -->
+                <div class="card text-center group hover:scale-105 animate-glow" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 bg-nova-purple bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="brain" class="w-8 h-8 text-nova-purple"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-nova-gray-900 mb-4">Conversational AI</h3>
+                    <p class="text-nova-gray-600">
+                        Friendly AI companion that guides users step-by-step with contextual, empathetic guidance.
+                    </p>
+                </div>
+
+                <!-- TrustGraph AI -->
+                <div class="card text-center group hover:scale-105 animate-glow" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 bg-nova-green bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="shield" class="w-8 h-8 text-nova-green"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-nova-gray-900 mb-4">TrustGraph AI</h3>
+                    <p class="text-nova-gray-600">
+                        Dynamic trust scoring with explainable AI decisions and regulator-ready audit summaries.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo-section" class="py-20 bg-nova-gray-50" style="display: none;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-nova-gray-900 mb-4">
+                    KYC Nova <span class="text-nova-blue">Demo Experience</span>
+                </h1>
+                <p class="text-xl text-nova-gray-600 max-w-3xl mx-auto">
+                    Experience the future of onboarding with our AI-powered verification system
+                </p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="mb-12">
+                <div class="flex justify-center items-center space-x-4 overflow-x-auto pb-4">
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center text-nova-blue">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-blue text-white">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-medium text-sm">Welcome</p>
+                                <p class="text-xs opacity-75">Meet your AI assistant</p>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 mx-2 text-nova-gray-300"></i>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center text-nova-gray-400">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400">
+                                <i data-lucide="file-text" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-medium text-sm">Document Upload</p>
+                                <p class="text-xs opacity-75">SmartVision+ analysis</p>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 mx-2 text-nova-gray-300"></i>
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center text-nova-gray-400">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400">
+                                <i data-lucide="user" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-medium text-sm">Face Verification</p>
+                                <p class="text-xs opacity-75">Biometric matching</p>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 mx-2 text-nova-gray-300"></i>
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center text-nova-gray-400">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400">
+                                <i data-lucide="shield" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-medium text-sm">Trust Assessment</p>
+                                <p class="text-xs opacity-75">TrustGraph analysis</p>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 mx-2 text-nova-gray-300"></i>
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center text-nova-gray-400">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-medium text-sm">Complete</p>
+                                <p class="text-xs opacity-75">Verification success</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Demo Content -->
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <div class="text-center py-12">
+                            <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 animate-glow">
+                                <i data-lucide="sparkles" class="w-10 h-10 text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-nova-gray-900 mb-4">
+                                Welcome to KYC Nova
+                            </h2>
+                            <p class="text-lg text-nova-gray-600 mb-8 max-w-2xl mx-auto">
+                                I'm Nova, your AI verification assistant. I'll guide you through a simple, 
+                                secure process that typically takes under 5 minutes.
+                            </p>
+                            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                                <div class="text-center">
+                                    <i data-lucide="eye" class="w-8 h-8 text-nova-blue mx-auto mb-2"></i>
+                                    <h3 class="font-semibold">SmartVision+</h3>
+                                    <p class="text-sm text-nova-gray-600">Document analysis</p>
+                                </div>
+                                <div class="text-center">
+                                    <i data-lucide="brain" class="w-8 h-8 text-nova-purple mx-auto mb-2"></i>
+                                    <h3 class="font-semibold">AI Guidance</h3>
+                                    <p class="text-sm text-nova-gray-600">Step-by-step help</p>
+                                </div>
+                                <div class="text-center">
+                                    <i data-lucide="shield" class="w-8 h-8 text-nova-green mx-auto mb-2"></i>
+                                    <h3 class="font-semibold">TrustGraph</h3>
+                                    <p class="text-sm text-nova-gray-600">Risk assessment</p>
+                                </div>
+                            </div>
+                            <button id="start-verification-btn" class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" onclick="startVerificationProcess()">
+                                Start Verification Process
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Trust Score -->
+                    <div class="card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="shield" class="w-5 h-5 text-nova-blue"></i>
+                                <h3 class="font-semibold text-nova-gray-900">Trust Score</h3>
+                            </div>
+                            <div class="flex items-center space-x-1 text-xs text-nova-gray-500">
+                                <i data-lucide="activity" class="w-3 h-3"></i>
+                                <span>Live</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="relative w-24 h-24 mb-4">
+                                <div class="w-24 h-24 rounded-full border-8 border-nova-gray-200"></div>
+                                <div id="trust-score-circle" class="absolute top-0 left-0 w-24 h-24 rounded-full border-8 border-nova-blue" style="border-right-color: transparent; border-top-color: transparent; transform: rotate(0deg); transition: transform 2s ease-out;"></div>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <i data-lucide="shield" class="w-5 h-5 text-nova-blue mb-1"></i>
+                                    <span id="trust-score-value" class="text-xl font-bold text-nova-blue">0</span>
+                                </div>
+                            </div>
+                            <h4 class="text-lg font-semibold text-nova-blue mb-1">Calculating...</h4>
+                            <p class="text-sm text-nova-gray-600">Trust Level</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Interface -->
+                    <div class="card h-80 flex flex-col">
+                        <div class="flex items-center space-x-3 mb-4 pb-4 border-b border-nova-gray-200">
+                            <div class="w-10 h-10 bg-nova-blue bg-opacity-10 rounded-full flex items-center justify-center">
+                                <i data-lucide="brain" class="w-5 h-5 text-nova-blue"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-nova-gray-900">Nova Assistant</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-nova-green rounded-full animate-pulse"></div>
+                                    <span class="text-xs text-nova-gray-500">Online</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 overflow-y-auto space-y-4 mb-4">
+                            <div class="flex justify-start">
+                                <div class="flex items-end space-x-2 max-w-[80%]">
+                                    <div class="w-8 h-8 rounded-full bg-nova-green text-white flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="bot" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="px-4 py-3 rounded-2xl rounded-bl-md bg-nova-gray-100 text-nova-gray-900">
+                                        <p class="text-sm">Hello! I'm Nova, your AI verification assistant. I'll guide you through a simple and secure onboarding process. Ready to get started?</p>
+                                        <p class="text-xs mt-1 text-nova-gray-500">Just now</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-end space-x-2">
+                            <input type="text" placeholder="Ask Nova anything..." class="flex-1 px-4 py-3 border border-nova-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-nova-blue focus:border-nova-blue outline-none" />
+                            <button class="bg-nova-gray-200 text-nova-gray-400 p-3 rounded-lg">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <button class="bg-white hover:bg-nova-gray-50 text-nova-gray-700 font-medium py-3 px-6 rounded-lg border border-nova-gray-200 transition-all duration-200 shadow-sm hover:shadow-md" onclick="goHome()">
+                    ← Back to Home
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-nova-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-nova-gray-900 mb-4">
+                    Transformative Impact
+                </h2>
+                <p class="text-xl text-nova-gray-600">
+                    Not just faster KYC — onboarding powered by intelligence and integrity
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="zap" class="w-6 h-6 text-nova-blue"></i>
+                    </div>
+                    <p class="text-nova-gray-700 font-medium">95% reduction in manual verification effort</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="clock" class="w-6 h-6 text-nova-blue"></i>
+                    </div>
+                    <p class="text-nova-gray-700 font-medium">Under 10-minute onboarding for verified users</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="target" class="w-6 h-6 text-nova-blue"></i>
+                    </div>
+                    <p class="text-nova-gray-700 font-medium">Explainable, regulator-trusted AI decisions</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="globe" class="w-6 h-6 text-nova-blue"></i>
+                    </div>
+                    <p class="text-nova-gray-700 font-medium">Scalable across banks, fintechs, and geographies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-nova-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-6">
+                Ready to Experience the Future of KYC?
+            </h2>
+            <p class="text-xl text-gray-300 mb-8">
+                See how KYC Nova transforms compliance into an intelligent, transparent conversation
+            </p>
+            <button class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center text-lg" onclick="startDemo()">
+                Start Demo Experience
+                <i data-lucide="arrow-right" class="ml-2 w-6 h-6"></i>
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function startDemo() {
+            document.getElementById('demo-section').style.display = 'block';
+            document.getElementById('demo-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showDashboard() {
+            alert('Dashboard feature would open in full React application. This is a demo showcase!');
+        }
+
+        function goHome() {
+            document.getElementById('demo-section').style.display = 'none';
+            document.querySelector('section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startVerificationProcess() {
+            console.log('Starting verification process...');
+            
+            // Hide the start button and show document upload interface
+            const startBtn = document.getElementById('start-verification-btn');
+            if (startBtn) {
+                startBtn.style.display = 'none';
+                console.log('Button hidden successfully');
+            }
+            
+            // Show document upload interface
+            showDocumentUpload();
+            
+            // Update step indicators to show we're on step 1 (document upload)
+            updateStepIndicators(1);
+            
+            // Add initial chat message
+            addChatMessage("Great! Now please upload your government-issued ID. I'll use SmartVision+ to analyze it.");
+        }
+
+        function showDocumentUpload() {
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="file-text" class="w-8 h-8 text-nova-blue"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Upload Your ID Document
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6 max-w-2xl mx-auto">
+                            Please upload a clear photo of your government-issued ID (Driver's License, Passport, or National ID)
+                        </p>
+                        
+                        <!-- Upload Area -->
+                        <div class="border-2 border-dashed border-nova-gray-300 rounded-xl p-8 mb-6 hover:border-nova-blue transition-colors cursor-pointer" onclick="simulateDocumentUpload()">
+                            <i data-lucide="upload" class="w-12 h-12 text-nova-gray-400 mx-auto mb-4"></i>
+                            <p class="text-nova-gray-600 mb-2">Click to upload or drag and drop</p>
+                            <p class="text-sm text-nova-gray-500">JPG, PNG or PDF up to 10MB</p>
+                        </div>
+                        
+                        <!-- Camera Option -->
+                        <div class="text-center">
+                            <p class="text-sm text-nova-gray-500 mb-4">or</p>
+                            <button onclick="simulateCameraCapture()" class="bg-nova-gray-100 hover:bg-nova-gray-200 text-nova-gray-700 font-medium py-2 px-4 rounded-lg transition-colors inline-flex items-center">
+                                <i data-lucide="camera" class="w-4 h-4 mr-2"></i>
+                                Use Camera
+                            </button>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function simulateDocumentUpload() {
+            console.log('Document upload clicked');
+            
+            // Show upload progress
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="file-text" class="w-8 h-8 text-nova-blue animate-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Analyzing Document...
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6">
+                            SmartVision+ is processing your ID using advanced OCR and security analysis
+                        </p>
+                        <div class="w-full bg-nova-gray-200 rounded-full h-3 mb-4">
+                            <div id="upload-progress" class="bg-gradient-to-r from-nova-blue to-nova-purple h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p id="progress-text" class="text-sm text-nova-gray-500">Starting analysis... 0%</p>
+                        <p class="text-xs text-nova-gray-400 mt-2">⏱️ Processing time: ~3 seconds</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            // Animate progress bar with status updates
+            let progress = 0;
+            const progressBar = document.getElementById('upload-progress');
+            const progressText = document.getElementById('progress-text');
+            const steps = [
+                "Starting analysis... 0%",
+                "Detecting document type... 20%", 
+                "Extracting text with OCR... 40%",
+                "Validating security features... 60%",
+                "Checking for tampering... 80%",
+                "Finalizing verification... 100%"
+            ];
+            
+            const progressInterval = setInterval(() => {
+                progress += 20;
+                if (progressBar && progressText) {
+                    progressBar.style.width = progress + '%';
+                    const stepIndex = Math.min(Math.floor(progress / 20), steps.length - 1);
+                    progressText.textContent = steps[stepIndex];
+                    console.log(`Progress: ${progress}% - ${steps[stepIndex]}`);
+                }
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    progressText.textContent = "Analysis complete! ✅";
+                    console.log('Document analysis complete, showing results...');
+                    setTimeout(() => {
+                        showDocumentResults();
+                    }, 1000);
+                }
+            }, 500); // Slower animation for better visibility
+            
+            addChatMessage("Perfect! I've received your document. Let me analyze it now...");
+        }
+
+        function simulateCameraCapture() {
+            console.log('Camera capture clicked');
+            
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-nova-blue bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="camera" class="w-8 h-8 text-nova-blue animate-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Camera Active
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6">
+                            Position your ID within the frame and click capture
+                        </p>
+                        <div class="bg-nova-gray-900 rounded-lg p-8 mb-6 relative">
+                            <div class="border-2 border-nova-blue border-dashed rounded-lg p-8">
+                                <i data-lucide="id-card" class="w-16 h-16 text-nova-blue mx-auto mb-4"></i>
+                                <p class="text-white text-sm">Position your ID here</p>
+                            </div>
+                        </div>
+                        <button onclick="simulateDocumentUpload()" class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                            Capture Document
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            addChatMessage("Camera is ready! Position your ID in the frame and capture when ready.");
+        }
+
+        function showDocumentResults() {
+            updateStepIndicators(2); // Move to face verification step
+            
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="flex items-center justify-center space-x-2 mb-6">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-nova-green"></i>
+                            <h2 class="text-2xl font-bold text-nova-gray-900">Document Verified</h2>
+                        </div>
+                        
+                        <div class="bg-nova-green-light rounded-lg p-4 mb-6">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="text-left">
+                                    <p class="text-nova-gray-600">Document Type:</p>
+                                    <p class="font-semibold">Driver's License</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-nova-gray-600">Confidence:</p>
+                                    <p class="font-semibold text-nova-green">97.8%</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-nova-gray-600">Name:</p>
+                                    <p class="font-semibold">John Michael Doe</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-nova-gray-600">Status:</p>
+                                    <p class="font-semibold text-nova-green">Valid</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-nova-gray-900 mb-4">Next: Face Verification</h3>
+                        <p class="text-nova-gray-600 mb-6">
+                            Now let's verify it's really you with a quick selfie
+                        </p>
+                        
+                        <button onclick="showFaceVerification()" class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                            Start Face Verification
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            addChatMessage("Excellent! Your document has been verified successfully. Now let's confirm it's really you with a quick face verification.");
+        }
+
+        function showFaceVerification() {
+            updateStepIndicators(2); // Current step: face verification
+            
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 bg-nova-purple bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="user" class="w-8 h-8 text-nova-purple"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Face Verification
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6">
+                            Please look at the camera and follow the instructions
+                        </p>
+                        
+                        <div class="bg-nova-gray-900 rounded-lg p-6 mb-6 relative">
+                            <div class="w-48 h-48 mx-auto border-4 border-nova-purple border-dashed rounded-full flex items-center justify-center">
+                                <i data-lucide="user" class="w-24 h-24 text-nova-purple"></i>
+                            </div>
+                            <p class="text-white text-sm mt-4">Position your face in the circle</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-nova-gray-600 mb-2">Instructions:</p>
+                            <div class="flex justify-center space-x-4 text-xs">
+                                <span class="bg-nova-purple-light text-nova-purple px-2 py-1 rounded">Look straight</span>
+                                <span class="bg-nova-purple-light text-nova-purple px-2 py-1 rounded">Remove glasses</span>
+                                <span class="bg-nova-purple-light text-nova-purple px-2 py-1 rounded">Good lighting</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="simulateFaceCapture()" class="bg-nova-purple hover:bg-nova-purple-dark text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                            Capture Face
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            addChatMessage("Perfect! Now let's verify it's really you. Please position your face in the circle and capture when ready.");
+        }
+
+        function simulateFaceCapture() {
+            // Show processing
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-nova-purple bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="scan" class="w-8 h-8 text-nova-purple animate-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Processing Face Match...
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6">
+                            Comparing your face with document photo using Face-api.js
+                        </p>
+                        <div class="w-full bg-nova-gray-200 rounded-full h-2 mb-4">
+                            <div id="face-progress" class="bg-nova-purple h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <p class="text-sm text-nova-gray-500">Analyzing biometric features...</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            // Animate progress
+            let progress = 0;
+            const progressBar = document.getElementById('face-progress');
+            const progressInterval = setInterval(() => {
+                progress += 15;
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                }
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        showTrustScoreCalculation();
+                    }, 500);
+                }
+            }, 300);
+            
+            addChatMessage("Great capture! I'm now comparing your face with the document photo...");
+        }
+
+        function showTrustScoreCalculation() {
+            updateStepIndicators(3); // Move to trust assessment
+            
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-nova-green bg-opacity-10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="brain" class="w-8 h-8 text-nova-green animate-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-nova-gray-900 mb-4">
+                            Calculating Trust Score
+                        </h2>
+                        <p class="text-nova-gray-600 mb-6">
+                            TrustGraph AI is analyzing all verification factors...
+                        </p>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-6 text-sm">
+                            <div class="bg-nova-green-light rounded-lg p-3">
+                                <i data-lucide="file-text" class="w-6 h-6 text-nova-green mx-auto mb-2"></i>
+                                <p class="font-semibold">Document</p>
+                                <p class="text-nova-green">97.8% ✓</p>
+                            </div>
+                            <div class="bg-nova-purple-light rounded-lg p-3">
+                                <i data-lucide="user" class="w-6 h-6 text-nova-purple mx-auto mb-2"></i>
+                                <p class="font-semibold">Face Match</p>
+                                <p class="text-nova-purple">96.2% ✓</p>
+                            </div>
+                            <div class="bg-nova-blue-light rounded-lg p-3">
+                                <i data-lucide="activity" class="w-6 h-6 text-nova-blue mx-auto mb-2"></i>
+                                <p class="font-semibold">Behavior</p>
+                                <p class="text-nova-blue">91.5% ✓</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="w-full bg-nova-gray-200 rounded-full h-3">
+                                <div id="trust-progress" class="bg-gradient-to-r from-nova-blue to-nova-green h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                            <p class="text-sm text-nova-gray-500 mt-2">Finalizing trust calculation...</p>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            // Animate trust score calculation
+            animateTrustScore();
+            
+            // Animate the final progress bar
+            setTimeout(() => {
+                const progressBar = document.getElementById('trust-progress');
+                if (progressBar) {
+                    progressBar.style.width = '94%';
+                }
+            }, 500);
+            
+            addChatMessage("Excellent match! Now calculating your final trust score using our TrustGraph AI...");
+            
+            // Show final results after animation completes
+            setTimeout(() => {
+                showFinalResults();
+            }, 3000);
+        }
+
+        function showFinalResults() {
+            updateStepIndicators(4); // Complete
+            
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-20 h-20 bg-nova-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="check-circle" class="w-12 h-12 text-white"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-nova-green mb-4">
+                            Verification Complete!
+                        </h2>
+                        <p class="text-lg text-nova-gray-600 mb-8">
+                            Your identity has been successfully verified with high confidence
+                        </p>
+                        
+                        <div class="bg-nova-green-light rounded-lg p-6 mb-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-nova-green mb-1">94%</p>
+                                    <p class="text-sm text-nova-gray-600">Trust Score</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-nova-green mb-1">2.3m</p>
+                                    <p class="text-sm text-nova-gray-600">Process Time</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-lg font-bold text-nova-green mb-1">APPROVED</p>
+                                    <p class="text-sm text-nova-gray-600">Status</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-lg font-bold text-nova-green mb-1">HIGH</p>
+                                    <p class="text-sm text-nova-gray-600">Confidence</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center space-x-4">
+                            <button onclick="resetDemo()" class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                                Try Demo Again
+                            </button>
+                            <button onclick="showExplainability()" class="bg-white border border-nova-gray-300 hover:bg-nova-gray-50 text-nova-gray-700 font-medium py-3 px-6 rounded-lg transition-colors">
+                                View Explanation
+                            </button>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+            
+            addChatMessage("🎉 Congratulations! Your verification is complete. You've been approved with a 94% trust score. Welcome aboard!");
+            
+            // Show completion alert
+            setTimeout(() => {
+                alert('🎉 KYC Nova Demo Complete!\n\nYour Results:\n• Trust Score: 94% (High Trust)\n• Document Verification: ✓ Passed\n• Face Verification: ✓ Passed\n• Processing Time: 2.3 minutes\n• Status: APPROVED\n\nThis demonstrates real AI-powered KYC with:\n✅ Interactive document upload\n✅ Face verification simulation\n✅ Trust scoring with explainable factors\n✅ Complete audit trail');
+            }, 1000);
+        }
+
+        function showExplainability() {
+            alert('🔍 Explainability Report\n\nYour trust score of 94% was calculated based on:\n\n📄 Document Authenticity (40% weight): 97.8%\n• Security features verified\n• No tampering detected\n• OCR extraction successful\n\n👤 Biometric Verification (35% weight): 96.2%\n• Face match confidence: High\n• Liveness detection: Passed\n• Anti-spoofing checks: Clear\n\n🎯 Behavioral Analysis (25% weight): 91.5%\n• Natural interaction patterns\n• Device trust indicators\n• Session behavior normal\n\nRecommendation: APPROVED for onboarding\nAudit Trail: Complete and ready for compliance review');
+        }
+
+function simulateProgress() {
+            // This function is now called by startVerificationProcess
+            simulateKYCSteps();
+        }
+
+        function simulateProgress() {
+            // This function is now called by startVerificationProcess
+            simulateKYCSteps();
+        }
+
+        function simulateKYCSteps() {
+            const steps = [
+                {
+                    id: 0,
+                    title: 'Welcome',
+                    description: 'Meeting your AI assistant',
+                    duration: 2000,
+                    message: 'Hello! I\'m Nova, your AI verification assistant. Let\'s begin your secure onboarding process.'
+                },
+                {
+                    id: 1,
+                    title: 'Document Upload',
+                    description: 'SmartVision+ analysis',
+                    duration: 3000,
+                    message: 'Great! Now please upload your government-issued ID. I\'ll use SmartVision+ to analyze it.'
+                },
+                {
+                    id: 2,
+                    title: 'Face Verification',
+                    description: 'Biometric matching',
+                    duration: 2500,
+                    message: 'Perfect! Now let\'s verify it\'s really you. Please position your face in the camera frame.'
+                },
+                {
+                    id: 3,
+                    title: 'Trust Assessment',
+                    description: 'TrustGraph analysis',
+                    duration: 2000,
+                    message: 'Excellent match! Now calculating your trust score using our TrustGraph AI...'
+                },
+                {
+                    id: 4,
+                    title: 'Complete',
+                    description: 'Verification success',
+                    duration: 1000,
+                    message: 'Verification complete! You\'ve been successfully approved.'
+                }
+            ];
+
+            let currentStep = 0;
+            
+            function processStep() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    
+                    // Update step indicators
+                    updateStepIndicators(currentStep);
+                    
+                    // Update main content
+                    updateMainContent(step);
+                    
+                    // Add chat message
+                    addChatMessage(step.message);
+                    
+                    // Special handling for trust score step
+                    if (currentStep === 3) {
+                        animateTrustScore();
+                    }
+                    
+                    // Move to next step
+                    setTimeout(() => {
+                        currentStep++;
+                        processStep();
+                    }, step.duration);
+                } else {
+                    // Show completion
+                    showCompletion();
+                }
+            }
+            
+            processStep();
+        }
+
+        function updateStepIndicators(activeStep) {
+            const stepElements = document.querySelectorAll('#demo-section .flex.items-center');
+            stepElements.forEach((stepEl, index) => {
+                const circle = stepEl.querySelector('.w-12.h-12');
+                const texts = stepEl.querySelectorAll('p');
+                
+                if (index < activeStep) {
+                    // Completed step
+                    circle.className = 'w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-green text-white';
+                    texts[0].className = 'font-medium text-sm text-nova-green';
+                    texts[1].className = 'text-xs text-nova-green opacity-75';
+                } else if (index === activeStep) {
+                    // Current step
+                    circle.className = 'w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-blue text-white';
+                    texts[0].className = 'font-medium text-sm text-nova-blue';
+                    texts[1].className = 'text-xs text-nova-blue opacity-75';
+                } else {
+                    // Future step
+                    circle.className = 'w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400';
+                    texts[0].className = 'font-medium text-sm text-nova-gray-400';
+                    texts[1].className = 'text-xs text-nova-gray-400 opacity-75';
+                }
+            });
+        }
+
+        function updateMainContent(step) {
+            const mainContent = document.querySelector('#demo-section .lg\\:col-span-2 .card');
+            
+            const stepDescriptions = {
+                0: {
+                    icon: 'sparkles',
+                    title: 'Welcome to KYC Nova',
+                    content: 'I\'m Nova, your AI verification assistant. I\'ll guide you through a simple, secure process that typically takes under 5 minutes.',
+                    features: [
+                        { icon: 'eye', name: 'SmartVision+', desc: 'Document analysis' },
+                        { icon: 'brain', name: 'AI Guidance', desc: 'Step-by-step help' },
+                        { icon: 'shield', name: 'TrustGraph', desc: 'Risk assessment' }
+                    ]
+                },
+                1: {
+                    icon: 'file-text',
+                    title: 'Document Analysis in Progress',
+                    content: 'SmartVision+ is analyzing your document using advanced OCR and security feature detection.',
+                    features: [
+                        { icon: 'scan', name: 'OCR Processing', desc: '98.7% accuracy' },
+                        { icon: 'shield', name: 'Security Check', desc: 'Hologram & microtext' },
+                        { icon: 'search', name: 'Forgery Detection', desc: 'AI-powered analysis' }
+                    ]
+                },
+                2: {
+                    icon: 'user',
+                    title: 'Biometric Verification',
+                    content: 'Face-api.js is performing real-time face matching and liveness detection.',
+                    features: [
+                        { icon: 'camera', name: 'Live Detection', desc: 'Real-time matching' },
+                        { icon: 'eye', name: 'Liveness Check', desc: 'Anti-spoofing' },
+                        { icon: 'target', name: 'Face Match', desc: '96.2% similarity' }
+                    ]
+                },
+                3: {
+                    icon: 'brain',
+                    title: 'Trust Score Calculation',
+                    content: 'TrustGraph AI is calculating your trust score using multiple verification factors.',
+                    features: [
+                        { icon: 'file-text', name: 'Document Auth', desc: '40% weight' },
+                        { icon: 'user', name: 'Biometric Match', desc: '35% weight' },
+                        { icon: 'activity', name: 'Behavioral', desc: '25% weight' }
+                    ]
+                },
+                4: {
+                    icon: 'check-circle',
+                    title: 'Verification Complete!',
+                    content: 'Congratulations! Your identity has been successfully verified with high confidence.',
+                    features: [
+                        { icon: 'shield', name: 'Trust Score', desc: '94% - High Trust' },
+                        { icon: 'clock', name: 'Process Time', desc: 'Under 4 minutes' },
+                        { icon: 'check-circle', name: 'Status', desc: 'Approved' }
+                    ]
+                }
+            };
+
+            const stepInfo = stepDescriptions[step.id];
+            
+            mainContent.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                        <i data-lucide="${stepInfo.icon}" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-nova-gray-900 mb-4">
+                        ${stepInfo.title}
+                    </h2>
+                    <p class="text-lg text-nova-gray-600 mb-8 max-w-2xl mx-auto">
+                        ${stepInfo.content}
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        ${stepInfo.features.map(feature => `
+                            <div class="text-center">
+                                <i data-lucide="${feature.icon}" class="w-8 h-8 text-nova-blue mx-auto mb-2"></i>
+                                <h3 class="font-semibold">${feature.name}</h3>
+                                <p class="text-sm text-nova-gray-600">${feature.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${step.id === 4 ? `
+                        <div class="bg-nova-green-light rounded-lg p-4 mb-6">
+                            <div class="flex items-center justify-center space-x-2">
+                                <i data-lucide="check-circle" class="w-6 h-6 text-nova-green"></i>
+                                <span class="text-lg font-semibold text-nova-green">Identity Verified Successfully</span>
+                            </div>
+                        </div>
+                        <button onclick="resetDemo()" class="bg-nova-blue hover:bg-nova-blue-dark text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Try Demo Again
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+
+            // Reinitialize Lucide icons
+            lucide.createIcons();
+        }
+
+        function addChatMessage(message) {
+            const chatContainer = document.querySelector('#demo-section .overflow-y-auto.space-y-4');
+            
+            const messageEl = document.createElement('div');
+            messageEl.className = 'flex justify-start';
+            messageEl.innerHTML = `
+                <div class="flex items-end space-x-2 max-w-[80%]">
+                    <div class="w-8 h-8 rounded-full bg-nova-green text-white flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4"></i>
+                    </div>
+                    <div class="px-4 py-3 rounded-2xl rounded-bl-md bg-nova-gray-100 text-nova-gray-900">
+                        <p class="text-sm">${message}</p>
+                        <p class="text-xs mt-1 text-nova-gray-500">Just now</p>
+                    </div>
+                </div>
+            `;
+            
+            chatContainer.appendChild(messageEl);
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Reinitialize Lucide icons
+            lucide.createIcons();
+        }
+
+        function animateTrustScore() {
+            let score = 0;
+            const targetScore = 94;
+            const circle = document.getElementById('trust-score-circle');
+            const value = document.getElementById('trust-score-value');
+            const label = document.querySelector('#demo-section h4');
+            
+            const interval = setInterval(() => {
+                score += 2;
+                value.textContent = score;
+                
+                const rotation = (score / 100) * 360;
+                circle.style.transform = `rotate(${rotation}deg)`;
+                
+                if (score >= targetScore) {
+                    clearInterval(interval);
+                    label.textContent = 'High Trust';
+                    label.className = 'text-lg font-semibold text-nova-green mb-1';
+                }
+            }, 50);
+        }
+
+        function showCompletion() {
+            setTimeout(() => {
+                alert('🎉 KYC Nova Demo Complete!\n\nFinal Results:\n• Trust Score: 94% (High Trust)\n• Processing Time: 9.5 seconds\n• Status: APPROVED\n• All AI modules worked successfully\n\nThis demonstrates our real AI-powered KYC system with:\n✅ Document OCR (Tesseract.js)\n✅ Face Recognition (Face-api.js)\n✅ Trust Scoring (Custom ML)\n✅ Conversational AI (NLP)');
+            }, 500);
+        }
+
+        function resetDemo() {
+            // Reset all step indicators
+            const stepElements = document.querySelectorAll('#demo-section .flex.items-center');
+            stepElements.forEach((stepEl, index) => {
+                const circle = stepEl.querySelector('.w-12.h-12');
+                const texts = stepEl.querySelectorAll('p');
+                
+                if (index === 0) {
+                    circle.className = 'w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-blue text-white';
+                    texts[0].className = 'font-medium text-sm text-nova-blue';
+                    texts[1].className = 'text-xs text-nova-blue opacity-75';
+                } else {
+                    circle.className = 'w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-nova-gray-200 text-nova-gray-400';
+                    texts[0].className = 'font-medium text-sm text-nova-gray-400';
+                    texts[1].className = 'text-xs text-nova-gray-400 opacity-75';
+                }
+            });
+
+            // Reset trust score
+            document.getElementById('trust-score-circle').style.transform = 'rotate(0deg)';
+            document.getElementById('trust-score-value').textContent = '0';
+            document.querySelector('#demo-section h4').textContent = 'Calculating...';
+            document.querySelector('#demo-section h4').className = 'text-lg font-semibold text-nova-blue mb-1';
+
+            // Clear chat messages except first one
+            const chatContainer = document.querySelector('#demo-section .overflow-y-auto.space-y-4');
+            const messages = chatContainer.children;
+            for (let i = messages.length - 1; i > 0; i--) {
+                chatContainer.removeChild(messages[i]);
+            }
+
+            // Reset main content
+            updateMainContent({ id: 0, title: 'Welcome', description: 'Meet your AI assistant' });
+        }
+    </script>
+</body>
+</html>
